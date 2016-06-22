@@ -8,6 +8,11 @@
  * Add our Admin menu items
  */
 add_action( 'admin_menu', 'mds_admin_menu' );
+add_action( 'wp_ajax_mds_clear_cache', 'mds_clear_cache');
+
+function mds_clear_cache(){
+
+}
 
 if (is_admin()) {
 	if (isset($_GET['page']) && $_GET['page'] == 'mds-confirmed-order-view-pdf') {

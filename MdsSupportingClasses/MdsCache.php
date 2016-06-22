@@ -197,4 +197,16 @@ class MdsCache {
 
 		return false;
 	}
+
+	/**
+	 *Clear the Cache directory
+	 */
+	public function purge(){
+		$cache_files = $this->directory_map();
+		if($cache_files){
+			foreach ($cache_files as $cache_file){
+				@unlink($this->cache_dir . $cache_file);
+			}
+		}
+	}
 }

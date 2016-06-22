@@ -425,6 +425,37 @@ jQuery(function(){
 			return this;
 		};
 
+		$.fn.showLoading = function(step, maxDots){
+			var $this = this;
+			if($this.timer){
+				$this.cancelLoader();
+			}
+			$this.css({width : '150px'});
+			$this.originalText = $this.text();
+			var loadingText = 'Loading';
+			$this.text(loadingText);
+			$this.dotCount = 0;
+			this.timer = setInterval(function () {
+				if($this.dotCount < maxDots){
+					$this.text($this.text() + '.');
+				} else{
+					$this.text(loadingText);
+					$this.dotCount = 0;
+				}
+				$this.dotCount++;
+			}, step);
+			return this;
+		};
+
+		$.fn.cancelLoader = function(){
+			this.css({width : 'auto'});
+		  if(this.timer){
+			  clearInterval(this.timer)
+		  }
+		  if(this.originalText) {
+			  this.text(this.originalText);
+		  }
+		};
 	})(jQuery);
 
 	var shippingMode = jQuery('select[name="woocommerce_mds_collivery_method_free"]');
@@ -455,4 +486,24 @@ jQuery(function(){
 	});
 
 	shippingMode.change();
+
+	var clearCache = jQuery('#mds_clear_cache');
+	clearCache.click(function (e) {
+		e.preventDefault();
+		var originalText = jQuery(this).text();
+		jQuery.ajax({
+			url : ajaxurl,
+			data : {
+				action : 'mds_clear_cache'
+			},
+			type : 'GET',
+			dataType : 'html',
+			beforeSend :function () {
+				clearCache.showLoading(200, 10);
+			},
+			complete : function () {
+				clearCache.cancelLoader();
+			}
+		})
+	});
 });

@@ -116,7 +116,11 @@ class WC_Mds_Shipping_Method extends WC_Shipping_Method
 				'type' => 'text',
 				'description' => __('The password used when logging in to MDS.', 'woocommerce-mds-shipping'),
 				'default' => "api123",
-			)
+			),
+			'mds_clear_cache' => array(
+				'title' => '<a class="button-primary" role="link" id="mds_clear_cache">Clear MDS Cache</a>',
+				'type' => 'hidden',
+			),
 		);
 
 		$this->form_fields = $fields;
